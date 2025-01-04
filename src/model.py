@@ -2,7 +2,7 @@
 
 import os
 from transformers import AutoModelForTokenClassification, AutoTokenizer
-from src.utils import read_config
+from utils import read_config
 
 def load_and_save_model(model_name, save_dir):
     """
@@ -24,6 +24,24 @@ def load_and_save_model(model_name, save_dir):
     tokenizer.save_pretrained(save_dir)
 
     print(f"Model and tokenizer for '{model_name}' saved in '{save_dir}'.")
+
+
+def load_model_and_tokenizer_locally(model_dir):
+    """
+    Loads the model and tokenizer from the specified directory.
+
+    Args:
+        model_dir (str): The directory where the model and tokenizer are saved.
+
+    Returns:
+        model: The loaded model.
+        tokenizer: The loaded tokenizer.
+    """
+    # Load the model and tokenizer from the specified directory
+    model = AutoModelForTokenClassification.from_pretrained(model_dir)
+    tokenizer = AutoTokenizer.from_pretrained(model_dir)
+
+    return model, tokenizer
 
 if __name__=="__main__":
     config = read_config()
