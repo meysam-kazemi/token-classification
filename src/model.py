@@ -2,10 +2,10 @@
 
 import os
 from transformers import AutoModelForTokenClassification, AutoTokenizer
-from utils import read_config
+from src.utils import read_config
 
 
-class modelAndTokenizer:
+class modelTokenizer:
     def __init__(self):
         config = read_config()
         self.save_dir = config['model']['save_dir']
@@ -40,6 +40,3 @@ class modelAndTokenizer:
         # Load the model and tokenizer from the specified directory
         self.model = AutoModelForTokenClassification.from_pretrained(self.save_dir)
         self.tokenizer = AutoTokenizer.from_pretrained(self.save_dir)
-
-if __name__=="__main__":
-    model_tokenizer = modelAndTokenizer()
