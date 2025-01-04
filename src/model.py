@@ -45,7 +45,11 @@ def load_model_and_tokenizer_locally(model_dir):
 
 if __name__=="__main__":
     config = read_config()
-    load_and_save_model(
-        model_name=config['model']['name'],
-        save_dir=config['model']['save_dir']
-        )
+    # load_and_save_model(
+    #     model_name=config['model']['name'],
+    #     save_dir=config['model']['save_dir']
+    #     )
+    model, tokenizer = load_model_and_tokenizer_locally(
+        config['model']['save_dir']
+    )
+    print(tokenizer.is_fast)
