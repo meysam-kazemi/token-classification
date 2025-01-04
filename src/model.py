@@ -42,9 +42,4 @@ class modelAndTokenizer:
         self.tokenizer = AutoTokenizer.from_pretrained(self.save_dir)
 
 if __name__=="__main__":
-    config = read_config()
-    # load_and_save_model(
-    #     model_name=config['model']['name'],
-    #     save_dir=config['model']['save_dir']
-    #     )
     model_tokenizer = modelAndTokenizer()
