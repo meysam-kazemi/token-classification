@@ -12,20 +12,20 @@ class modelTokenizer:
     def __init__(self, config):
         self.save_dir = config['model']['save_dir']
         self.model_name = config['model']['name']
+
+        self.eval = evaluate.load("seqeval")
+        self.label_names = [
+            'O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC','I-LOC',
+            'B-MISC', 'I-MISC'
+        ]
+        self.id2label = {i: label for i, label in enumerate(self.label_names)}
+        self.label2id = {v: k for k, v in self.id2label.items()}
+
         try:
             self._load_model_and_tokenizer_locally()
             print("Locally")
         except:
             self._load_and_save_model()
-        
-        self.label_names = [
-            'O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC','I-LOC',
-            'B-MISC', 'I-MISC'
-        ]
-        self.eval = evaluate.load("seqeval")
-        self.id2label = {i: label for i, label in enumerate(label_names)}
-        self.label2id = {v: k for k, v in self.id2label.items()}
-
 
     def _load_and_save_model(self):
         """

@@ -1,6 +1,6 @@
 from transformers import TrainingArguments, Trainer
-from src.model import modelTokenizer
-from src.utils import (
+from model import modelTokenizer
+from utils import (
     read_config,
     load_saved_dataset,
     preProcessingTokens,
@@ -10,7 +10,7 @@ config = read_config()
 data = load_saved_dataset(config['dataset']['name'])
 mt = modelTokenizer(config)
 preprocess = preProcessingTokens(tokenizer=mt.tokenizer)
-tokenized_dataset = preprocess.tokenize_datasets()
+tokenized_datasets = preprocess.tokenize_datasets(data)
 
 args = TrainingArguments(
     "bert-finetuned-ner",

@@ -3,7 +3,7 @@ import os
 import numpy as np
 from datasets import load_dataset
 import configparser
-from transformers import DataCollatorForTokenClassification,
+from transformers import DataCollatorForTokenClassification
 
 def load_saved_dataset(dataset_name):
     """
