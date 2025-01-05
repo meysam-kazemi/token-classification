@@ -1,8 +1,10 @@
 # src/utils.py
 import os
+import numpy as np
 from datasets import load_dataset
 import configparser
-
+from transformers import DataCollatorForTokenClassification
+import evaluate
 
 def load_saved_dataset(dataset_name):
     """
@@ -51,10 +53,11 @@ def read_config(config_file='config.ini'):
 
 
 class preProcessingTokens:
-    def __init__(self, model, tokenizer):
-        self.tokenizer = tokenizer
-        self.model = model
-        
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer      
+        self.data_collator = DataCollatorForTokenClassification(
+            tokenizer=tokenizer
+        )
 
     def _align_labels_with_tokens(self, labels, word_ids):
         new_labels = []
@@ -91,10 +94,38 @@ class preProcessingTokens:
         tokenized_inputs["labels"] = new_labels
         return tokenized_inputs
 
-    def __call__(self, data):
-        return data.map(
+    def tokenize_datasets(self, data):
+        tokenized_datasets = data.map(
             self._tokenize_and_align_labels,
             batched=True,
             remove_columns=data["train"].column_names,
         )
-        
+        print("Tokenized and labels aligned!")
+        return tokenized_datasets
+    
+    def padding(self, data):
+        pass
+
+
+class Metrics:
+    def __init__(self, label_names):
+        self.label_names = label_names
+        self.eval = evaluate.load("seqeval")
+
+    def compute_metrics(self, eval_preds):
+        logits, labels = eval_preds
+        predictions = np.argmax(logits, axis=-1)
+
+        # Remove ignored index (special tokens) and convert to labels
+        true_labels = [[self.label_names[l] for l in label if l != -100] for label in labels]
+        true_predictions = [
+            [self.label_names[p] for (p, l) in zip(prediction, label) if l != -100]
+            for prediction, label in zip(predictions, labels)
+        ]
+        all_metrics = self.eval.compute(predictions=true_predictions, references=true_labels)
+        return {
+            "precision": all_metrics["overall_precision"],
+            "recall": all_metrics["overall_recall"],
+            "f1": all_metrics["overall_f1"],
+            "accuracy": all_metrics["overall_accuracy"],
+        }
