@@ -50,7 +50,7 @@ def read_config(config_file='config.ini'):
     return config_dict
 
 
-class preProcessing:
+class preProcessingTokens:
     def __init__(self, model, tokenizer):
         self.tokenizer = tokenizer
         self.model = model
