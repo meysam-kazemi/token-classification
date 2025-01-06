@@ -1,3 +1,5 @@
+# app.py
+
 from src.classifier import Classifer
 import gradio as gr
 
