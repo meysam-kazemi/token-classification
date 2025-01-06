@@ -78,3 +78,15 @@ class modelTokenizer:
             "f1": all_metrics["overall_f1"],
             "accuracy": all_metrics["overall_accuracy"],
         }
+    
+    def postprocess(self, predictions, labels):
+        predictions = predictions.detach().cpu().clone().numpy()
+        labels = labels.detach().cpu().clone().numpy()
+
+        # Remove ignored index (special tokens) and convert to labels
+        true_labels = [[self.label_names[l] for l in label if l != -100] for label in labels]
+        true_predictions = [
+            [self.label_names[p] for (p, l) in zip(prediction, label) if l != -100]
+            for prediction, label in zip(predictions, labels)
+        ]
+        return true_labels, true_predictions

@@ -50,22 +50,6 @@ def read_config(config_file='config.ini'):
     
     return config_dict
 
-def postprocess(self, predictions, labels):
-        label_names = [
-            'O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC','I-LOC',
-            'B-MISC', 'I-MISC'
-        ]
-        predictions = predictions.detach().cpu().clone().numpy()
-        labels = labels.detach().cpu().clone().numpy()
-
-        # Remove ignored index (special tokens) and convert to labels
-        true_labels = [[label_names[l] for l in label if l != -100] for label in labels]
-        true_predictions = [
-            [label_names[p] for (p, l) in zip(prediction, label) if l != -100]
-            for prediction, label in zip(predictions, labels)
-        ]
-        return true_labels, true_predictions
-
 class preProcessingTokens:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer      
