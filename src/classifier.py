@@ -8,18 +8,24 @@ model_checkpoint = config['model']['save_dir']
 token_classifier = pipeline(
     "token-classification", model=model_checkpoint, aggregation_strategy="simple"
 )
-
-input_text = ""
-while 1:
-    input_text = input("please write a text:\n\t")
-    if input_text=="q":
-        break
-    res = token_classifier(input_text)
-
-    print(f"the result is :")
+def tabluar_result(res):
+    output_text = ""
     words = [ent['word'].center(10) for ent in res]
-    print("words   :  " + "|".join(words))
     groups = [ent['entity_group'].center(10) for ent in res]
-    print("groups  :  " + "|".join(groups))
     scores = [(str(round(ent['score']*100,1))+"%").center(10) for ent in res]
-    print("scores  :  " + "|".join(scores))
+    output_text += "words   :  " + "|".join(words) + "\n"
+    output_text += "groups  :  " + "|".join(groups) + "\n"
+    output_text += "scores  :  " + "|".join(scores) + "\n"
+    return output_text
+
+
+if __name__=="__main__":
+    input_text = ""
+    while 1:
+        input_text = input("please write a text:\n\t")
+        if input_text=="q":
+            break
+        res = token_classifier(input_text)
+
+        print(f"the result is :")
+        print(tabluar_result(res))
