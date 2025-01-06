@@ -29,8 +29,9 @@ python src/train.py
 
 You can use this command:
 ```bash
-python src/classifier.py
+python app.py
 ```
 
+After executing the command above, you will be able to perform inference directly through a web interface.
 
 
