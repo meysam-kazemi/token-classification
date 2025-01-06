@@ -2,8 +2,6 @@
 
 This project implements a Named Entity Recognition (NER) system using pre-trained models from the Hugging Face `transformers` library. The goal is to facilitate the identification and classification of named entities in text, such as people, organizations, locations, and other specific terms.
 
-<mark>**Note: This README is a work in progress and may not contain all necessary information.**</mark>
-
 
 ## Installation
 
@@ -24,6 +22,14 @@ python data/download_data.py
 ### Run the train.py
 ```bash
 python src/train.py
+```
+
+
+## Inference
+
+You can use this command:
+```bash
+python src/classifier.py
 ```
 
 
