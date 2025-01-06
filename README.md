@@ -13,11 +13,18 @@ To get started, ensure you have Python installed on your machine. Then, install 
 pip install -r requirements.txt
 ```
 
-## Usage
+## Train
 ### Download and Save the Dataset 
 
 Run the script to create a local copy of the dataset.
 ```bash
 python data/download_data.py
 ```
+
+### Run the train.py
+```bash
+python src/train.py
+```
+
+
 

@@ -2,6 +2,8 @@ from torch.utils.data import DataLoader
 from torch.optim import AdamW
 from accelerate import Accelerator
 from transformers import get_scheduler
+from tqdm.auto import tqdm
+import torch
 from model import modelTokenizer
 from utils import (
     read_config,
@@ -52,11 +54,9 @@ lr_scheduler = get_scheduler(
 # --------------
 ## Training loop
 # --------------
-from tqdm.auto import tqdm
-import torch
 
 progress_bar = tqdm(range(num_training_steps))
-output_dir = './'
+output_dir = config['model']['save_dir']
 for epoch in range(num_train_epochs):
     # Training
     model.train()
